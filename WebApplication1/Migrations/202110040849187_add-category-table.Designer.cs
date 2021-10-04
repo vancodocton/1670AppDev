@@ -13,7 +13,7 @@ namespace WebApplication1.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202110040221481_add-category-table"; }
+            get { return "202110040849187_add-category-table"; }
         }
         
         string IMigrationMetadata.Source
