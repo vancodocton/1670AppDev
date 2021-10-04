@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using WebApplication1.Models;
@@ -11,7 +12,7 @@ namespace WebApplication1.Controllers
         // GET: Todo
         public ActionResult Index()
         {
-            List<Todo> todos = _context.Todos.ToList();
+            List<Todo> todos = _context.Todos.Include(t => t.Category).ToList();
             return View(todos);
         }
 

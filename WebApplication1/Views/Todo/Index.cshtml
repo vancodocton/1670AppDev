@@ -22,6 +22,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Description</th>
+			<th scope="col">Category</th>
             <th scope="col">Due Date</th>
             <th scope="col">Action</th>
         </tr>
@@ -32,6 +33,7 @@
             <tr>
                 <th scope="row">@item.ID</th>
                 <td>@item.Description</td>
+				<td>@item.Category.Description</td>
                 <td>@item.DueDate.ToString("d")</td>
                 <td>
                     @Html.ActionLink("Delete", "Delete", "Todo", new { id = item.ID }, new { @class = "btn btn-danger" })
