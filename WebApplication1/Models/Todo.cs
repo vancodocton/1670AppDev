@@ -20,5 +20,14 @@ namespace WebApplication1.Models
         public int CategoryID { get; set; }
 
         public Category Category { get; set; }
+
+        public Todo() { }
+        public Todo(Todo todo)
+        {
+            this.ID = todo.ID;
+            this.Description = todo.Description;
+            this.DueDate = todo.DueDate;
+            this.CategoryID = todo.CategoryID;
+        }
     }
 }
