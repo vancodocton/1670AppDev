@@ -106,7 +106,7 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var todo = _context.Todos.SingleOrDefault(t => t.ID == id);
+            var todo = _context.Todos.Include(t => t.Category).SingleOrDefault(t => t.ID == id);
 
             if (todo == null)
             {
@@ -132,9 +132,10 @@ namespace WebApplication1.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
         public ActionResult Details(int id)
         {
-            var todo = _context.Todos.SingleOrDefault(t => t.ID == id);
+            var todo = _context.Todos.Include(t => t.Category).SingleOrDefault(t => t.ID == id);
 
             if (todo == null)
             {
