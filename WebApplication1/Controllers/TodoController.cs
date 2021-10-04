@@ -1,37 +1,57 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using WebApplication1.Models;
+using WebApplication1.ViewModels;
 
 namespace WebApplication1.Controllers
 {
     public class TodoController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
-        // GET: Todo
+
+        [HttpGet]
         public ActionResult Index()
         {
-            List<Todo> todos = _context.Todos.Include(t => t.Category).ToList();
+            //var userID = User.Identity.GetUserId();
+            var todos = _context.Todos.Include(t => t.Category).ToList();
             return View(todos);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            var viewModel = new TodoCategoriesViewModel
+            {
+                Categories = _context.Categories.ToList()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Create(Todo todo)
+        public ActionResult Create(TodoCategoriesViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(todo);
+                return View(viewModel);
             }
 
-            _context.Todos.Add(todo);
-            _context.SaveChanges();
+            try
+            {
+                var todo = new Todo(viewModel.Todo);
+                _context.Todos.Add(todo);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                ViewData["ErrorMessage"] = e.Message;
+                viewModel.Categories = _context.Categories.ToList();
+                return View(viewModel);
+            }
 
             return RedirectToAction(nameof(Index));
         }
