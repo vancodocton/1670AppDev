@@ -178,6 +178,10 @@
     <Compile Include="Migrations\202110031758081_First.Designer.cs">
       <DependentUpon>202110031758081_First.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202110041025082_add-category-table.cs" />
+    <Compile Include="Migrations\202110041025082_add-category-table.Designer.cs">
+      <DependentUpon>202110041025082_add-category-table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -272,6 +276,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202110031758081_First.resx">
       <DependentUpon>202110031758081_First.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110041025082_add-category-table.resx">
+      <DependentUpon>202110041025082_add-category-table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
