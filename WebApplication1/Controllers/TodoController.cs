@@ -11,7 +11,7 @@ namespace WebApplication1.Controllers
 {
     public class TodoController : Controller
     {
-        private ApplicationDbContext _context = new ApplicationDbContext();
+        private readonly ApplicationDbContext _context = new ApplicationDbContext();
 
         [HttpGet]
         public ActionResult Index()
@@ -59,31 +59,48 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var todo = _context.Todos.SingleOrDefault(t => t.ID == id);
+            Todo todo = _context.Todos.SingleOrDefault<Todo>(t => t.ID == id);
 
             if (todo == null)
             {
-                return HttpNotFound();
+                return new HttpNotFoundResult();
             }
 
-            return View(todo);
+            var viewModel = new TodoCategoriesViewModel
+            {
+                Todo = todo,
+                Categories = _context.Categories.ToList()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Edit(Todo todo)
+        public ActionResult Edit(TodoCategoriesViewModel viewModel)
         {
-            var todoInDb = _context.Todos.SingleOrDefault(t => t.ID == todo.ID);
+            var todoInDb = _context.Todos.SingleOrDefault(t => t.ID == viewModel.Todo.ID);
 
             if (todoInDb == null)
-                return HttpNotFound();
-            else
             {
-                todoInDb.Description = todo.Description;
-                todoInDb.DueDate = todo.DueDate;
-
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                return HttpNotFound();
             }
+
+            try
+            {
+                todoInDb.Description = viewModel.Todo.Description;
+                todoInDb.DueDate = viewModel.Todo.DueDate;
+                todoInDb.CategoryID = viewModel.Todo.CategoryID;
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                ViewData["ErrorMessage"] = e.Message;
+                viewModel.Categories = _context.Categories.ToList();
+                return View(viewModel);
+            }
+
+            return RedirectToAction(nameof(Index));
+
         }
 
         [HttpGet]

@@ -250,7 +250,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Todo\Index.cshtml" />
-    <Content Include="Views\Todo\Createss.cshtml" />
     <Content Include="Views\Todo\Edit.cshtml" />
     <Content Include="Views\Todo\Delete.cshtml" />
     <Content Include="Views\Todo\Details.cshtml" />
