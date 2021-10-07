@@ -18,10 +18,13 @@
                 @Html.ActionLink("Todo management", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("My todo list", "Index", "Todo")</li>
-                </ul>
+				<ul class="nav navbar-nav">
+					<li>@Html.ActionLink("Home", "Index", "Home")</li>
+					@if (User.Identity.IsAuthenticated)
+					{
+						<li>@Html.ActionLink("My todo list", "Index", "Todo")</li>
+					}
+				</ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

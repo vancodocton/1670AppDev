@@ -182,6 +182,10 @@
     <Compile Include="Migrations\202110041025082_add-category-table.Designer.cs">
       <DependentUpon>202110041025082_add-category-table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202110070409346_alter-todo-table.cs" />
+    <Compile Include="Migrations\202110070409346_alter-todo-table.Designer.cs">
+      <DependentUpon>202110070409346_alter-todo-table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -257,6 +261,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Utils\" />
     <Folder Include="Views\Team\" />
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202110041025082_add-category-table.resx">
       <DependentUpon>202110041025082_add-category-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110070409346_alter-todo-table.resx">
+      <DependentUpon>202110070409346_alter-todo-table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

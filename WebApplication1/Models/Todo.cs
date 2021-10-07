@@ -21,6 +21,10 @@ namespace WebApplication1.Models
 
         public Category Category { get; set; }
 
+        [ForeignKey("User")]
+        public string UserID { get; set; }
+        public ApplicationUser User { get; set; }
+
         public Todo() { }
         public Todo(Todo todo)
         {

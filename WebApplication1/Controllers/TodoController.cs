@@ -9,6 +9,7 @@ using WebApplication1.ViewModels;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize]
     public class TodoController : Controller
     {
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
@@ -16,8 +17,8 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            //var userID = User.Identity.GetUserId();
-            var todos = _context.Todos.Include(t => t.Category).ToList();
+            var userID = User.Identity.GetUserId();
+            var todos = _context.Todos.Include(t => t.Category).Where(t => t.UserID == userID).ToList();
             return View(todos);
         }
 
@@ -37,12 +38,17 @@ namespace WebApplication1.Controllers
         {
             if (!ModelState.IsValid)
             {
+                viewModel.Categories = _context.Categories.ToList();
                 return View(viewModel);
             }
 
             try
             {
-                var todo = new Todo(viewModel.Todo);
+                var todo = new Todo(viewModel.Todo)
+                {
+                    UserID = User.Identity.GetUserId()
+                };
+
                 _context.Todos.Add(todo);
                 _context.SaveChanges();
             }
@@ -59,7 +65,8 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            Todo todo = _context.Todos.SingleOrDefault<Todo>(t => t.ID == id);
+            var userID = User.Identity.GetUserId();
+            Todo todo = _context.Todos.SingleOrDefault<Todo>(t => t.ID == id && t.UserID == userID);
 
             if (todo == null)
             {
@@ -78,7 +85,8 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public ActionResult Edit(TodoCategoriesViewModel viewModel)
         {
-            var todoInDb = _context.Todos.SingleOrDefault(t => t.ID == viewModel.Todo.ID);
+            var userID = User.Identity.GetUserId();
+            var todoInDb = _context.Todos.SingleOrDefault(t => t.ID == viewModel.Todo.ID && t.UserID == userID);
 
             if (todoInDb == null)
             {
@@ -106,7 +114,8 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var todo = _context.Todos.Include(t => t.Category).SingleOrDefault(t => t.ID == id);
+            var userID = User.Identity.GetUserId();
+            var todo = _context.Todos.Include(t => t.Category).SingleOrDefault(t => t.ID == id && t.UserID == userID);
 
             if (todo == null)
             {
@@ -119,7 +128,8 @@ namespace WebApplication1.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            var todo = _context.Todos.SingleOrDefault(t => t.ID == id);
+            var userID = User.Identity.GetUserId();
+            var todo = _context.Todos.SingleOrDefault(t => t.ID == id && t.UserID == userID);
 
             if (todo == null)
             {
@@ -135,7 +145,8 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            var todo = _context.Todos.Include(t => t.Category).SingleOrDefault(t => t.ID == id);
+            var userID = User.Identity.GetUserId();
+            var todo = _context.Todos.Include(t => t.Category).SingleOrDefault(t => t.ID == id && t.UserID == userID);
 
             if (todo == null)
             {
