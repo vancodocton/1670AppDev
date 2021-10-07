@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using WebApplication1.Models;
+using WebApplication1.Utils;
 using WebApplication1.ViewModels;
 
 namespace WebApplication1.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = Role.User)]
     public class TodoController : Controller
     {
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
